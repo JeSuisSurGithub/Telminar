@@ -36,7 +36,7 @@ with open(OUT_MEM_FILE, "w") as f:
             for x in range(CHAR_SIZE):
                 pixel = img_small.getpixel((x, y))
                 if pixel > THRESHOLD:
-                    row_bits |= 1 << (7 - x)
+                    row_bits |= 1 << x
             f.write(f"{row_bits:02X}\n")
 
 preview_img.save(PREVIEW_PNG)

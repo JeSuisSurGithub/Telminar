@@ -14,10 +14,12 @@ end entity;
 architecture rtl of font_render is
     signal pixel_x_in_char, pixel_y_in_char: unsigned(2 downto 0);
     signal pix_bit: std_logic;
+    signal color: std_logic_vector(23 downto 0);
 
     begin
         pixel_x_in_char <= x(2 downto 0);
         pixel_y_in_char <= y(2 downto 0);
+        data <= color;
 
         u_font_rom: entity work.font_rom
             port map(
@@ -31,9 +33,9 @@ architecture rtl of font_render is
         process(clk) begin
             if rising_edge(clk) then
                 if pix_bit = '1' then
-                    data <= fgc;
+                    color <= fgc;
                 else
-                    data <= bgc;
+                    color <= bgc;
                 end if;
             end if;
         end process;

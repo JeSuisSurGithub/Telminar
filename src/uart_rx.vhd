@@ -10,7 +10,7 @@ entity uart_rx is port(
 end entity;
 
 architecture rtl of uart_rx is
-    constant CLKS_PER_BIT: integer := 2083;
+    constant CLKS_PER_BIT: integer := 1041;
     signal clk_count: integer := 0;
 
     type state_t is (IDLE, START, RECV, STOP);
