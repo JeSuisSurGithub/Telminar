@@ -36,7 +36,7 @@ architecture rtl of frame_data is
             port map (clk => clk, rst_n => rst_n, rx => rx,
                     data => data, ready => ready);
 
-        process(clk, rst_n, ready, char_x, char_y) begin
+        process(clk, rst_n) begin
             if rst_n = '0' then
                 state <= AWAIT;
                 cursor_x <= (others => '0');

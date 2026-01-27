@@ -12,7 +12,7 @@ entity top is port(
 end entity;
 
 architecture rtl of top is
-    signal clk80, clk40, rst_n: std_logic;
+    signal clk80, clk40, rst_n: std_logic := '0';
     signal x, y: unsigned(11 downto 0);
     signal fgc, bgc: std_logic_vector(23 downto 0);
     signal ascii: unsigned(7 downto 0);
@@ -34,14 +34,14 @@ architecture rtl of top is
                     rgb => rgb, x => x, y => y);
 
         u_color_ctrl: entity work.color_ctrl(rtl)
-            port map(clk => clk40, rst_n => rst_n, button => button, fgc => fgc, bgc => bgc);
+            port map(clk => clk80, rst_n => rst_n, button => button, fgc => fgc, bgc => bgc);
 
         u_frame_data: entity work.frame_data(rtl)
-            port map(clk => clk40, rst_n => rst_n, rx => rx, x => x, y => y, ascii => ascii);
+            port map(clk => clk80, rst_n => rst_n, rx => rx, x => x, y => y, ascii => ascii);
                     
 
         u_font_render: entity work.font_render(rtl)
-            port map(clk => clk80, x => x, y => y, ascii => ascii, fgc => fgc, bgc => bgc, data => data);
+            port map(clk => clk80, rst_n => rst_n, x => x, y => y, ascii => ascii, fgc => fgc, bgc => bgc, data => data);
 
         clk_lcd <= clk40;
     end architecture;

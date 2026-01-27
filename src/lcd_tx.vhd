@@ -24,7 +24,7 @@ architecture rtl of lcd_tx is
     constant V_FRONT: integer := 13;
     constant V_TOTAL: integer := 520;
 
-    signal de_r: std_logic;
+    signal de_r, de_ahead: std_logic;
     signal hcpt, vcpt: unsigned(11 downto 0) := (others => '0');
 
     begin
@@ -33,13 +33,14 @@ architecture rtl of lcd_tx is
 
         de_r <= '1' when ((hcpt >= H_SYNC + H_BACK) and (hcpt < H_SYNC + H_BACK + H_DISP)
                     and (vcpt >= V_SYNC + V_BACK) and (vcpt < V_SYNC + V_BACK + V_DISP)) else '0';
+        de_ahead <= '1' when ((hcpt >= H_SYNC + H_BACK - 1) and (hcpt < H_SYNC + H_BACK + H_DISP - 1)
+                    and (vcpt >= V_SYNC + V_BACK) and (vcpt < V_SYNC + V_BACK + V_DISP)) else '0';
         de <= de_r;
 
         rgb <= data when (de_r = '1') else (others => '0');
 
-        x <= (hcpt - (H_SYNC + H_BACK)) when (de_r = '1') else (others => '0');
-        y <= (vcpt - (V_SYNC + V_BACK)) when (de_r = '1') else (others => '0');
-
+        x <= (hcpt - (H_SYNC + H_BACK - 1)) when (de_ahead = '1') else (others => '0');
+        y <= (vcpt - (V_SYNC + V_BACK)) when (de_ahead = '1') else (others => '0');
         
         process(clk, rst_n) begin
             if rst_n = '0' then
