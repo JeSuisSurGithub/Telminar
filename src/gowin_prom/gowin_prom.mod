@@ -14,5 +14,5 @@
 -depth 2048
 -width 8
 -read_mode pipeline
--reset_mode async
+-reset_mode sync
 -init_file /home/jesuissurpingouin/Zepha/Programmation/fpga/Telminar/scripts/font.mi

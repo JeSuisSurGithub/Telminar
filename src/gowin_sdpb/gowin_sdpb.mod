@@ -1,0 +1,21 @@
+-series GW2AR
+-device GW2AR-18
+-device_version C
+-package QFN88
+-part_number GW2AR-LV18QN88C8/I7
+
+
+-mod_name Gowin_SDPB
+-file_name gowin_sdpb
+-path /home/jesuissurpingouin/Zepha/Programmation/fpga/Telminar/src/gowin_sdpb/
+-type RAM_SDP
+-file_type vhdl
+-bram_b true
+-depth_0 6000
+-depth_1 6000
+-width_0 8
+-width_1 8
+-read_mode pipeline
+-reset_mode sync
+-init_file /home/jesuissurpingouin/Zepha/Programmation/fpga/Telminar/scripts/framebuffer.mi
+-init_match port_B

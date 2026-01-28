@@ -30,7 +30,7 @@ architecture rtl of uart_rx is
                 data_r <= (others => '0');
                 ready_r <= '0';
             elsif rising_edge(clk) then
-                case state is 
+                case state is
                     when IDLE =>
                         if rx = '0' then
                             clk_count <= 0;
@@ -39,7 +39,7 @@ architecture rtl of uart_rx is
                     when START =>
                         if clk_count < CLKS_PER_BIT/2 then
                             clk_count <= clk_count + 1;
-                        else 
+                        else
                             clk_count <= 0;
                             state <= RECV;
                             bit_cnt <= 0;

@@ -11,5 +11,5 @@ DEPTH=2048
 LANG=1
 MEM_FILE=../../scripts/font.mi
 READ=1
-RESET_MODE=false
+RESET_MODE=true
 WIDTH=8

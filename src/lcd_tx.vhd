@@ -41,7 +41,7 @@ architecture rtl of lcd_tx is
 
         x <= (hcpt - (H_SYNC + H_BACK - 1)) when (de_ahead = '1') else (others => '0');
         y <= (vcpt - (V_SYNC + V_BACK)) when (de_ahead = '1') else (others => '0');
-        
+
         process(clk, rst_n) begin
             if rst_n = '0' then
                 hcpt <= (others => '0');

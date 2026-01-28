@@ -36,9 +36,8 @@ architecture rtl of top is
         u_color_ctrl: entity work.color_ctrl(rtl)
             port map(clk => clk80, rst_n => rst_n, button => button, fgc => fgc, bgc => bgc);
 
-        u_frame_data: entity work.frame_data(rtl)
+        u_frame_buffer_io: entity work.frame_buffer_io(rtl)
             port map(clk => clk80, rst_n => rst_n, rx => rx, x => x, y => y, ascii => ascii);
-                    
 
         u_font_render: entity work.font_render(rtl)
             port map(clk => clk80, rst_n => rst_n, x => x, y => y, ascii => ascii, fgc => fgc, bgc => bgc, data => data);
