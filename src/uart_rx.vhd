@@ -32,6 +32,7 @@ architecture rtl of uart_rx is
             elsif rising_edge(clk) then
                 case state is
                     when IDLE =>
+                        ready_r <= '0';
                         if rx = '0' then
                             clk_count <= 0;
                             state <= START;

@@ -1,7 +1,7 @@
 OUT_MEM_FILE = "framebuffer.mi"
 FRAMEBUFFER_SIZE = 6000
 CHAR_WIDTH = 8
-INIT_MESSAGE = "Hi!\r\n"
+INIT_MESSAGE = "Good morning! Here's your debugging terminal!"
 
 with open(OUT_MEM_FILE, "w") as f:
     f.write("#File_format=Hex\n")

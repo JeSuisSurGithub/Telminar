@@ -34,7 +34,7 @@ architecture rtl of top is
                     rgb => rgb, x => x, y => y);
 
         u_color_ctrl: entity work.color_ctrl(rtl)
-            port map(clk => clk80, rst_n => rst_n, button => button, fgc => fgc, bgc => bgc);
+            port map(clk => clk40, rst_n => rst_n, button => button, fgc => fgc, bgc => bgc);
 
         u_frame_buffer_io: entity work.frame_buffer_io(rtl)
             port map(clk => clk80, rst_n => rst_n, rx => rx, x => x, y => y, ascii => ascii);

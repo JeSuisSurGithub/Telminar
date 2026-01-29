@@ -18,8 +18,8 @@ architecture rtl of frame_buffer_io is
     signal ready: std_logic;
     signal wr, clear_rq, clearing: std_logic;
 
-    type state_t is (CLEAR, AWAIT, CONSUME, IDLE);
-    signal state: state_t := CLEAR;
+    type state_t is (CHK_CLEAR, WAIT_CLEAR, AWAIT, CONSUME, IDLE);
+    signal state: state_t := CHK_CLEAR;
     signal cursor_x, cursor_y: unsigned(6 downto 0) := (others => '0');
 
     begin
@@ -38,19 +38,23 @@ architecture rtl of frame_buffer_io is
                 unsigned(data_out) => ascii);
 
         process(clk, rst_n) begin
-            if rst_n = '0' then    
+            if rst_n = '0' then
                 wr <= '0';
                 clear_rq <= '1';
-                state <= CLEAR;         
+                state <= CHK_CLEAR;
                 cursor_x <= (others => '0');
-                cursor_y <= (others => '0');   
+                cursor_y <= (others => '0');
             elsif rising_edge(clk) then
                 case state is
-                    when CLEAR =>
-                        if clear_rq = '1' and clearing = '0' then
-                            clear_rq <= '0';
+                    when CHK_CLEAR =>
+                        if clear_rq = '1' then
+                            state <= WAIT_CLEAR;
+                        else
                             state <= AWAIT;
-                        elsif clear_rq = '0' then
+                        end if;
+                    when WAIT_CLEAR =>
+                        if clearing = '0' then
+                            clear_rq <= '0';
                             state <= AWAIT;
                         end if;
                     when AWAIT =>
@@ -100,7 +104,7 @@ architecture rtl of frame_buffer_io is
                     when IDLE =>
                         wr <= '0';
                         if ready = '0' then
-                            state <= CLEAR;
+                            state <= CHK_CLEAR;
                         end if;
                 end case;
             end if;

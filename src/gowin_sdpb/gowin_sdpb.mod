@@ -18,4 +18,4 @@
 -read_mode pipeline
 -reset_mode sync
 -init_file /home/jesuissurpingouin/Zepha/Programmation/fpga/Telminar/scripts/framebuffer.mi
--init_match port_B
+-init_match port_A
