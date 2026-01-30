@@ -12,6 +12,8 @@ entity font_render is port(
 end entity;
 
 architecture rtl of font_render is
+    constant ROM_SIZE: integer := 2048;
+
     signal bmp_x, bmp_y: unsigned(2 downto 0);
 
     signal p_addr: std_logic_vector(10 downto 0);
@@ -22,10 +24,7 @@ architecture rtl of font_render is
     begin
         data <= fgc when pix_bit='1' else bgc;
 
-        bmp_x <= resize(x - 2, 3); -- weird FIX
-        bmp_y <= resize(y, 3);
-
-        p_addr <= std_logic_vector((unsigned(ascii & bmp_y)) mod 2048);
+        p_addr <= std_logic_vector(unsigned(ascii & bmp_y) mod ROM_SIZE);
         pix_bit <= p_dout(to_integer(bmp_x));
 
         u_pROM: entity work.Gowin_pROM
@@ -36,6 +35,8 @@ architecture rtl of font_render is
         process(clk, rst_n) begin
             if rst_n = '0' then
             elsif rising_edge(clk) then
+                bmp_x <= resize(x - 1, 3); -- weird FIX
+                bmp_y <= resize(y, 3);
             end if;
         end process;
     end architecture;

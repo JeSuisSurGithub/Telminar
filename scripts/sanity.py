@@ -7,6 +7,4 @@ time.sleep(0.1)
 
 ser.write(b'0123456789' * 600)
 
-# ser.write(bytes([0]))
-
 ser.close()

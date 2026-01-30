@@ -9,7 +9,7 @@ entity color_ctrl is port(
 end entity;
 
 architecture rtl of color_ctrl is
-    constant MAX_CPT: integer := 1600000;
+    constant MAX_CPT: integer := 1600000; -- 20ms @ 80MHz
 
     type state_t is (IDLE, TIMER);
     signal state: state_t := IDLE;

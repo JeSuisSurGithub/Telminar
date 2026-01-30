@@ -59,15 +59,22 @@ architecture rtl of frame_buffer_io is
                         end if;
                     when AWAIT =>
                         if ready = '1' then
+                            case data is 
+                                when x"00" => clear_rq <= '1';
+                                when x"08" => null;
+                                when x"0A" => null;
+                                when x"0D" => null;
+                                when others => wr <= '1';
+                            end case;
                             state <= CONSUME;
                         end if;
                     when CONSUME =>
+                        wr <= '0';
                         state <= IDLE;
                         case data is
                             when x"00" =>
                                 cursor_x <= (others => '0');
                                 cursor_y <= (others => '0');
-                                clear_rq <= '1';
                             when x"08" =>
                                 if cursor_x > 0 then
                                     cursor_x <= cursor_x - 1;
@@ -89,7 +96,6 @@ architecture rtl of frame_buffer_io is
                             when x"0D" => cursor_x <= (others => '0');
 
                             when others =>
-                                wr <= '1';
                                 if cursor_x < H_CHARS - 1 then
                                     cursor_x <= cursor_x + 1;
                                 else
@@ -102,7 +108,6 @@ architecture rtl of frame_buffer_io is
                                 end if;
                         end case;
                     when IDLE =>
-                        wr <= '0';
                         if ready = '0' then
                             state <= CHK_CLEAR;
                         end if;

@@ -22,12 +22,13 @@ architecture rtl of frame_buffer is
     signal cl_idx: unsigned(12 downto 0) := (others => '0');
 
     begin
-        clearing <= '1' when clear = '1' and cl_idx < H_CHARS*V_CHARS-1 else '0';
+        clearing <= '1' when clear = '1' and cl_idx < H_CHARS*V_CHARS else '0';
         data_out <= rd_data;
 
-        rd_addr <= resize(rd_y * H_CHARS + rd_x mod 6000, 13);
+        rd_addr <= resize(rd_y * H_CHARS + rd_x mod (H_CHARS*V_CHARS), 13);
+
         wr_data <= data_in when (clear = '0' or clearing = '0') else x"20";
-        wr_addr <= resize(wr_y * H_CHARS + wr_x - 1, 13) when (clear = '0' or clearing = '0') else cl_idx; -- Last cycles address
+        wr_addr <= resize(wr_y * H_CHARS + wr_x mod (H_CHARS*V_CHARS), 13) when (clear = '0' or clearing = '0') else cl_idx; -- Last cycles address
         wr_en <= wr when (clear = '0' or clearing = '0') else '1';
 
         u_SDPB: entity work.Gowin_SDPB
